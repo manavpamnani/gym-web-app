@@ -1,0 +1,117 @@
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: white;
+}
+
+footer {
+    background-color: #222;
+    color: #aaa;
+}
+
+.hero-section {
+    background: url('/static/images/1a.png') no-repeat center center/cover;
+    height: 60vh;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Makes text more readable on images */
+    background-attachment: fixed; /* Adds a parallax scrolling effect (optional) */
+}
+
+/* .section-image { 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 400px; 
+    width: 100%;  
+    
+ }*/
+
+#about {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    color: #333;
+}
+
+#about h2 {
+    color: #000000;
+    text-transform: uppercase;
+}
+
+#about p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+#about img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #ddd;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffd700; /* Gold color on hover */
+    text-decoration: underline;
+}
+
+/* Ensure all cards have the same height */
+.card {
+    height: 100%; /* Makes all cards the same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures proper spacing between elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keeps the shadow consistent */
+    transition: transform 0.3s ease;
+}
+
+/* Ensure card images fit properly */
+.card img {
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensures the image scales properly */
+}
+
+/* Ensure card body content is aligned */
+.card-body {
+    flex-grow: 1; /* Ensures the body stretches to fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Aligns title and text properly */
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Custom styles for buttons */
+.btn-primary {
+    background-color: #fb8467; /* Custom primary color */
+    border-color: #ff7e5f;    /* Custom border color */
+}
+
+.btn-primary:hover {
+    background-color: #e08139; /* Lighter color on hover */
+    border-color: #feb47b;
+}
+
+.btn-lg {
+    padding: 15px 30px; /* Adjust padding for larger buttons */
+    font-size: 1.25rem; /* Adjust font size */
+}

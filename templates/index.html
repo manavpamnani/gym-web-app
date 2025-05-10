@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-section text-white text-center" style="background: url('/static/images/1a.png') no-repeat center center/cover; height: 60vh;">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+        <h1>Transform Your Life</h1>
+        <p class="lead">Join Gym Pro Today for a Healthier Tomorrow</p>
+        <a href="#services" class="btn btn-primary btn-lg">Explore Services</a>
+    </div>
+</div>
+
+<div class="mt-5 text-center">
+    <h2>Welcome to Gym Pro</h2>
+    <p>Your fitness journey starts here. Explore our services to achieve your goals! </p>
+    <p>At Gym Pro, we offer a wide range of fitness programs, expert trainers, and state-of-the-art equipment to help you stay motivated and achieve your best self. </p>
+    <!-- <p>Whether you're a beginner or a seasoned athlete, we have something for everyone. Join us today and take the first step toward a healthier, happier you!  </p> -->
+</div>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">Who We Are</h2>
+        <p class="lead mb-3">
+            At Gym Pro, we believe in empowering individuals to achieve their fitness goals through personalized plans, expert guidance, and state-of-the-art facilities.
+        </p>
+        <p class="mb-3">
+            Our mission is to create a supportive and inclusive environment where everyone, from beginners to seasoned athletes, can thrive. We understand that every fitness journey is unique, which is why we offer tailored workout programs, nutritional advice, and a wide range of classes to suit all fitness levels and preferences.
+        </p>
+        
+        <p>
+            With a team of certified trainers and cutting-edge equipment, we are dedicated to helping you transform your health and well-being. Whether you aim to build strength, improve flexibility, lose weight, or simply stay active, Gym Pro is here to guide you every step of the way.
+        </p>
+        <div class="mt-4">
+            <img src="/static/images/3.png" class="img-fluid rounded" alt="Gym Pro Team" style="max-height: 400px; width: auto;">
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-5 bg-light">
+    <div class="text-center my-5">
+        <h2 class="fw-bold mb-4">Our Services</h2>
+        <p>Discover what we offer to help you achieve your fitness goals.</p>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/static/images/3.png" class="card-img-top" alt="Personal Training">
+                <div class="card-body">
+                    <h5 class="card-title">Personal Training</h5>
+                    <p class="card-text">Customized plans tailored to your needs.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/static/images/4.png" class="card-img-top" alt="Group Classes">
+                <div class="card-body">
+                    <h5 class="card-title">Group Classes</h5>
+                    <p class="card-text">Motivating and fun fitness sessions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/static/images/5.png" class="card-img-top" alt="Nutrition Counseling">
+                <div class="card-body">
+                    <h5 class="card-title">Nutrition Counseling</h5>
+                    <p class="card-text">Expert advice to fuel your fitness goals.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/static/images/6.png" class="card-img-top" alt="State-of-the-Art Equipment">
+                <div class="card-body">
+                    <h5 class="card-title">State-of-the-Art Equipment</h5>
+                    <p class="card-text">Top-notch facilities for every workout.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+    <div class="container mt-5">
+        <h2 class="text-center fw-bold mb-4">Get in Touch</h2>
+        <p class="text-center">We’re here to help you reach your fitness goals.</p>
+        <form>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Your Name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Your Email">
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
