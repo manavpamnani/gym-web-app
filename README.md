@@ -27,8 +27,8 @@ Follow these instructions to set up the project on your local machine.
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/gym-pro.git
-   cd gym-pro
+   git clone https://github.com/sparknet-innovations/gym-web-app.git
+   cd gym-web-app
    ```
 
 2. Create and activate a virtual environment (optional):
