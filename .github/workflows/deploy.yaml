@@ -1,0 +1,52 @@
+name: CI/CD Pipeline - Build and Deploy to EKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | \
+        docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.ECR_REPOSITORY }}:latest .
+
+    - name: Stop existing container (if running)
+      run: |
+        docker ps -q --filter "ancestor=${{ secrets.ECR_REPOSITORY }}:latest" | \
+        xargs -r docker stop
+
+    - name: Run Docker Container (Locally Test Image)
+      run: |
+        docker run -d -p 5000:5000 ${{ secrets.ECR_REPOSITORY }}:latest
+
+    - name: Push Docker Image to ECR
+      run: |
+        docker push ${{ secrets.ECR_REPOSITORY }}:latest
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+    - name: Deploy to EKS
+      run: |
+        kubectl set image deployment/gym-app-deployment gym-app-container=${{ secrets.ECR_REPOSITORY }}:latest
+        kubectl rollout status deployment/gym-app-deployment
