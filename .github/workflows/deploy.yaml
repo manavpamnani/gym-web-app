@@ -20,16 +20,19 @@ jobs:
 
     - name: Login to ECR
       run: |
-        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <account_id>.dkr.ecr.ap-south-1.amazonaws.com
+        aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 061039777231.dkr.ecr.ap-south-1.amazonaws.com
+
 
     - name: Build Docker Image
       run: |
-        docker build -t gym-web-app .
-        docker tag gym-web-app:latest <account_id>.dkr.ecr.ap-south-1.amazonaws.com/gym-web-app
+        docker build -t gym-app .
+        dsudo docker tag gym-app:latest 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+
 
     - name: Push to ECR
       run: |
-        docker push <account_id>.dkr.ecr.ap-south-1.amazonaws.com/gym-web-app
+        dsudo docker push 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+
 
     - name: Deploy to EKS
       run: |
