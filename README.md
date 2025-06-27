@@ -1,60 +1,144 @@
-# Gym Pro: Your Fitness Journey Starts Here 💪
+📘 Project Title: Gym Pro Professional Static Web App Deployment Using DevOps Practices
+📝 Overview
+This project showcases a complete DevOps lifecycle by deploying a Flask-based Gym Web App on AWS using Docker containers, Amazon ECR, and Kubernetes on Amazon EKS. CI/CD is automated with GitHub Actions, and monitoring is planned using Prometheus and Grafana.
+________________________________________
+🔧 Tools & Technologies Used
+Tool/Service	Purpose
+	
 
-Gym Pro is a professional and visually appealing static web app for gyms and fitness centers. It offers an engaging design with multiple pages such as Home, About, Services, and Contact to provide visitors with a seamless experience. 
+Flask	Web application framework
+Docker	Containerization
+Amazon ECR	Container registry
+Amazon EKS	Kubernetes cluster hosting
+GitHub Actions	CI/CD automation
+kubectl	Kubernetes command-line tool
+AWS CLI	AWS resource configuration
+________________________________________
+⚙️ Project Workflow
+1. Flask App Setup
+•	Basic Flask app defined in app.py
+•	Exposes port 5000
+2. Dockerize the App
+Dockerfile
+FROM python:3.10
 
----
+WORKDIR /app
 
-## Features 🚀
-- **Responsive Design**: Optimized for desktop and mobile devices.
-- **Professional Styling**: Clean and modern design with vibrant images and layouts.
-- **Multiple Pages**:
-  - Home: Welcoming hero section with navigation.
-  - About: Learn more about Gym Pro and its mission.
-  - Services: Showcase the variety of services offered.
-  - Contact: Get in touch with Gym Pro.
-- **Dynamic Content**: Easily customizable with CSS and HTML.
+COPY . /app
 
----
+RUN pip install flask
 
-## Getting Started 🏋️‍♂️
+EXPOSE 5000
 
-Follow these instructions to set up the project on your local machine.
+CMD ["python", "app.py"]
+3. ECR Setup and Push Docker Image
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 061039777231.dkr.ecr.ap-south-1.amazonaws.com
 
-### Prerequisites
-- Python 3.7+
-- Virtual environment (optional, but recommended)
+docker build -t gym-app .
+docker tag gym-app:latest 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+docker push 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+4. Kubernetes Configuration
+deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gym-app
+  template:
+    metadata:
+      labels:
+        app: gym-app
+    spec:
+      containers:
+      - name: gym-app-container
+        image: 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: gym-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: gym-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+5. GitHub Actions Workflow
+``
+name: Build and Deploy to EKS
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sparknet-innovations/gym-web-app.git
-   cd gym-web-app
-   ```
+on:
+  push:
+    branches: [main]
 
-2. Create and activate a virtual environment (optional):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows: venv\Scripts\activate
-   ```
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-4. Run the development server:
-   ```bash
-   python app.py
-   ```
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
 
-5. Open your browser and navigate to `http://127.0.0.1:5000`.
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 061039777231.dkr.ecr.ap-south-1.amazonaws.com
 
----
+    - name: Build Docker Image
+      run: |
+        docker build -t gym-app .
+        docker tag gym-app:latest 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
 
-## Technologies Used 🛠️
-- **Backend**: Flask
-- **Frontend**: HTML, CSS, Bootstrap
-- **Static Assets**: Images and custom styling
-- **Development**: Python 3.7+
+    - name: Push to ECR
+      run: |
+        docker push 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+
+    - name: Update Kubeconfig
+      run: |
+        aws eks update-kubeconfig --region ap-south-1 --name gym-app-cluster
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f k8s-manifests/
+6. Deploy and Verify
+kubectl get all
+kubectl logs pod/<pod-name>
+________________________________________
+✅ Deployment Output
+Access your app via the LoadBalancer External IP:
+http://<load-balancer-dns>:80
+________________________________________
+📌 Final Notes
+•	Pods were crashing initially because Flask was running only on 127.0.0.1. You fixed it by updating app.py:
+app.run(host="0.0.0.0", port=5000, debug=True)
+•	Used port 5000 internally and exposed via Service on port 80.
+________________________________________
+Congratulations on completing your full DevOps project successfully!
 
 
