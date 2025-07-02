@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-south-1" #
+  region = "ap-south-1" 
 }
 
 resource "aws_instance" "my_ec2" {
@@ -10,7 +10,7 @@ resource "aws_instance" "my_ec2" {
   vpc_security_group_ids = [aws_security_group.my_sg.id]
 
   root_block_device {
-    volume_size = 40  # Set disk size to 40 GB
+    volume_size = 20  # Set disk size to 20 GB
     volume_type = "gp2"
   }
 

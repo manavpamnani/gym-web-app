@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: gym-app-container
-        image: 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app:latest
+        image: 061039777231.dkr.ecr.ap-south-1.amazonaws.com/gym-app
         ports:
         - containerPort: 5000
         livenessProbe:
