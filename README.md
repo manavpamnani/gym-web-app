@@ -138,7 +138,6 @@ ________________________________________
 •	Pods were crashing initially because Flask was running only on 127.0.0.1. You fixed it by updating app.py:
 app.run(host="0.0.0.0", port=5000, debug=True)
 •	Used port 5000 internally and exposed via Service on port 80.
-________________________________________
-Congratulations on completing your full DevOps project successfully!
+
 
 
